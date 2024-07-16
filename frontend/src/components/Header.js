@@ -45,7 +45,6 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <div></div>
       </div>
     </header>
   );

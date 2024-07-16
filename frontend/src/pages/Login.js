@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import loginIcon from "../assets/signin.gif";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -13,7 +14,7 @@ const Login = () => {
             <img src={loginIcon} alt="login icon"></img>
           </div>
 
-          <form>
+          <form className="pt-6">
             <div>
               <label>Email : </label>
               <div className="bg-slate-100 p-2">
@@ -32,12 +33,20 @@ const Login = () => {
                   placeholder="enter password"
                   className="w-full h-full outline-none bg-transparent"
                 ></input>
-                <div className="cursor-pointer" onClick={()=>setShowPassword((preve)=> !preve)}>
-                  <span>{showPassword ? <FaEyeSlash /> : <FaEye /> }</span>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword((preve) => !preve)}
+                >
+                  <span>{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
                 </div>
               </div>
             </div>
-            <button>Login</button>
+            <div>
+              <Link to={"/forgot-password"} className="block w-fit ml-auto hover:underline hover:text-red-500">Forgot Password</Link>
+            </div>
+            <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-2">
+              Login
+            </button>
           </form>
         </div>
       </div>
