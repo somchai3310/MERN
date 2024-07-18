@@ -4,8 +4,11 @@ import { GrSearch } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {useSelector} from 'react-redux'
 
 const Header = () => {
+  const user = useSelector(state => state)
+  console.log('user header', user);
   return (
     <header className="h-16 shadow-md bg-white">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
