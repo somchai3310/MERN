@@ -24,7 +24,7 @@ async function userSignUpController(req, res) {
     }
 
     const salt = bcrypt.genSaltSync(10);
-    const hashPassword = bcrypt.hashSync(password, salt);
+    const hashPassword = await bcrypt.hashSync(password, salt);
 
     if (!hashPassword) {
       throw new Error("something is wrong");
@@ -32,11 +32,12 @@ async function userSignUpController(req, res) {
 
     const payload = {
       ...req.body,
+      role: 'GENERAL',
       password: hashPassword,
     };
 
-    const userData = new userModel(req.body);
-    const saveUser = userData.save();
+    const userData = new userModel(payload);
+    const saveUser = await userData.save();
 
     res.status(201).json({
       data: saveUser,
