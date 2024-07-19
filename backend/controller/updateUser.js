@@ -1,5 +1,4 @@
-// import userModel = require("../models/userModel");
-userModel = require("../models/userModel");
+const userModel = require("../models/userModel");
 
 async function updateUser(req, res) {
   try {
