@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "./Logo";
 import { GrSearch } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
+import SummaryApi from "../common";
+import { toast } from "react-toastify";
+import { setUserDetails } from "../store/userSlice";
 
 const Header = () => {
-  const user = useSelector(state => state)
-  console.log('user header', user);
+  const user = useSelector((state) => state?.user?.user);
+  const dispatch = useDispatch();
+  const [menuDisplay, setMenuDisplay] = useState(false);
+
+  console.log("user header", user);
+
+  const handleLogout = async () => {
+    const fetchData = await fetch(SummaryApi.logout_user.url, {
+      method: SummaryApi.method,
+      credentials: "include",
+    });
+
+    const data = await fetchData.json();
+    console.log("on logout", data);
+    if (data.success) {
+      toast.success(data.message);
+      dispatch(setUserDetails(null));
+    } else {
+      toast.error(data.message);
+    }
+    console.log("check user after logout ->", user);
+  };
   return (
     <header className="h-16 shadow-md bg-white">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -29,8 +52,35 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-7">
-          <div className="text-3xl cursor-pointer">
-            <FaRegUserCircle />
+          {/* pic profile */}
+          <div className="relative flex justify-center">
+            <div
+              className="text-3xl cursor-pointer relative flex justify-center"
+              onClick={() => setMenuDisplay((preve) => !preve)}
+            >
+              {user?.profilePic ? (
+                <img
+                  src={user?.profilePic}
+                  className="w-10 h-10 rounded-full"
+                  alt={user?.name}
+                />
+              ) : (
+                <FaRegUserCircle />
+              )}
+            </div>
+            {menuDisplay && (
+              <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded">
+                <nav>
+                  <Link
+                    to={"admin-panel"}
+                    className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                    onClick={() => setMenuDisplay((preve) => !preve)}
+                  >
+                    Admin Panel
+                  </Link>
+                </nav>
+              </div>
+            )}
           </div>
 
           <div className="text-2xl relative">
@@ -43,9 +93,21 @@ const Header = () => {
           </div>
 
           <div>
-            <Link to={"/login"} className="px-2 py-1 rounded-full text-white bg-red-600 hover:bg-red-700">
-              Login
-            </Link>
+            {user?._id ? (
+              <button
+                onClick={handleLogout}
+                className="px-2 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
+              >
+                logout
+              </button>
+            ) : (
+              <Link
+                to={"/login"}
+                className="px-2 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>
