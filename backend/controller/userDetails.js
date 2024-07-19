@@ -15,7 +15,7 @@ async function userDetailsController(req,res){
     console.log('user', user);
   } catch (err) {
       res.status(400).json({
-        message : err.meassage || err,
+        message : err.message || err,
         error:true,
         success: false
       })
