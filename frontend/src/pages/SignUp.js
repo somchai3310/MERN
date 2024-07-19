@@ -56,7 +56,7 @@ const SignUp = () => {
 
       console.log("handleSubmit data", dataApi);
     } else {
-      console.log("Please check password match");
+      toast.error("Please check password match")
     }
   };
 
