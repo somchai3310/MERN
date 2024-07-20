@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { setUserDetails } from "../store/userSlice";
 import { FaRegUserCircle } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import ROLE from "../common/role";
 
 const AdminPanel = () => {
   const user = useSelector((state) => state?.user?.user);
-  const [setMenuDisplay] = useState(false);
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    if(user?.role !== ROLE.ADMIN){
+      navigate('/')
+    }
+  },[user])
   return (
     <div className="min-h-[calc(100vh-120px)] md:flex hidden">
       <aside className="bg-white min-h-full w-full max-w-60 customShadow">
-        <div className="h-32 flex justify-center items-center flex-col">
+        <div className="h-32 flex justify-center items-center flex-col pt-10">
           <div
-            className="text-5xl cursor-pointer relative flex justify-center"
-            onClick={() => setMenuDisplay((preve) => !preve)}
+            className="text-5xl relative flex justify-center"
           >
             {user?.profilePic ? (
               <img
