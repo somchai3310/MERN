@@ -7,7 +7,7 @@ async function userSignUpController(req, res) {
     const { email, password, name } = req.body;
 
     const user = await userModel.findOne({email})
-    console.log('user',user );
+    // console.log('user',user );
 
     if(user){
       throw new Error("Alerdy user exits")
