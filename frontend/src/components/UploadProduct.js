@@ -5,6 +5,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from "../helpers/uploadImage";
 import DisplayImage from "./DisplayImage";
 import { MdDelete } from "react-icons/md";
+import SummaryApi from "../common";
+import { toast } from "react-toastify";
 
 const UploadProduct = ({ onClose }) => {
   const [data, setData] = useState({
@@ -58,9 +60,29 @@ const UploadProduct = ({ onClose }) => {
   };
 
   // upload product
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("check data upload", data);
+
+    const response = await fetch(SummaryApi.uploadProduct.url,{
+      method : SummaryApi.uploadProduct.method,
+      credentials: 'include',
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+
+    const responseData = await response.json()
+
+    if(responseData.success){
+      toast.success(responseData?.message)
+      onClose()
+    }
+
+    if(responseData.error){
+      toast.error(responseData?.message)
+    }
   };
   return (
     <div className="fixed w-full h-full bg-slate-900 bg-opacity-40 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
@@ -87,6 +109,7 @@ const UploadProduct = ({ onClose }) => {
             value={data?.productName}
             onChange={handleOnChange}
             className="p-2 bg-slate-100 border rounded-md"
+            required
           />
 
           <label htmlFor="brandName" className="mt-3">
@@ -100,6 +123,7 @@ const UploadProduct = ({ onClose }) => {
             value={data?.brandName}
             onChange={handleOnChange}
             className="p-2 bg-slate-100 border rounded-md"
+            required
           />
 
           <label htmlFor="category" className="mt-3">
@@ -110,6 +134,7 @@ const UploadProduct = ({ onClose }) => {
             value={data?.category}
             className="p-2 bg-slate-100 border rounded-md"
             onChange={handleOnChange}
+            required
           >
             <option value={""}>Select Category</option>
             {productCategory.map((el, index) => {
@@ -186,6 +211,7 @@ const UploadProduct = ({ onClose }) => {
             value={data?.price}
             onChange={handleOnChange}
             className="p-2 bg-slate-100 border rounded-md"
+            required
           />
 
           <label htmlFor="sellingPrice" className="mt-3">
@@ -199,6 +225,7 @@ const UploadProduct = ({ onClose }) => {
             value={data?.sellingPrice}
             onChange={handleOnChange}
             className="p-2 bg-slate-100 border rounded-md"
+            required
           />
 
           <label htmlFor="description" className="mt-3">
