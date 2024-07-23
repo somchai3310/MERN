@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../../models/userModel");
 // Store hash in your password DB.
 const bcrypt = require("bcryptjs");
 
