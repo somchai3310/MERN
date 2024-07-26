@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import image1 from "../assets/banner/img1.webp";
 import image2 from "../assets/banner/img2.webp";
 import image3 from "../assets/banner/img3.jpg";
@@ -25,27 +25,38 @@ const BannerProduct = () => {
     image5Mobile,
   ];
   const nextImage = () => {
-    console.log('desktopImages.length-1', desktopImages.length-1);
-    console.log('currentImage', currentImage);
+    // console.log("desktopImages.length-1", desktopImages.length - 1);
+    // console.log("currentImage", currentImage);
     if (desktopImages.length - 1 > currentImage) {
       setCurrentImage((preve) => preve + 1);
     } else {
-      setCurrentImage(0)
+      setCurrentImage(0);
     }
   };
   const preveImage = () => {
-    console.log('desktopImages.length-1', desktopImages.length-1);
-    console.log('currentImage', currentImage);
+    // console.log("desktopImages.length-1", desktopImages.length - 1);
+    // console.log("currentImage", currentImage);
     if (currentImage !== 0) {
       setCurrentImage((preve) => preve - 1);
-    } else if(currentImage === 0) {
-      setCurrentImage(desktopImages.length - 1 )
+    } else if (currentImage === 0) {
+      setCurrentImage(desktopImages.length - 1);
     }
   };
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      if (desktopImages.length - 1 > currentImage) {
+        nextImage()
+      } else {
+        setCurrentImage(0);
+      }
+    },5000)
+
+    return ()=> clearInterval(interval)
+  })
   return (
     <div className="container mx-auto px-4 rounded-md">
-      <div className="h-72 w-full bg-slate-200 relative">
-        <div className="absolute z-10 h-full w-full flex items-center">
+      <div className="h-56 md:h-72 w-full bg-slate-200 relative">
+        <div className="absolute z-10 h-full w-full md:flex items-center hidden">
           <div className="flex justify-between w-full text-2xl px-2 opacity-25">
             <button
               onClick={preveImage}
@@ -61,7 +72,9 @@ const BannerProduct = () => {
             </button>
           </div>
         </div>
-        <div className="flex  h-full w-full overflow-hidden">
+
+        {/* desktop and tablet version */}
+        <div className="hidden md:flex  h-full w-full overflow-hidden">
           {desktopImages.map((imageUrl, index) => {
             return (
               <div
@@ -70,6 +83,21 @@ const BannerProduct = () => {
                 style={{ transform: `translateX(-${currentImage * 100}%)` }}
               >
                 <img src={imageUrl} alt="" className="w-full h-full" />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* mobile version */}
+        <div className="flex  h-full w-full overflow-hidden md:hidden">
+          {mobileImages.map((imageUrl, index) => {
+            return (
+              <div
+                className="w-full h-full min-w-full min-h-full transition-all"
+                key={imageUrl}
+                style={{ transform: `translateX(-${currentImage * 100}%)` }}
+              >
+                <img src={imageUrl} alt="" className="w-full h-full object-cover" />
               </div>
             );
           })}
