@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
 import displayCurrency from "../helpers/displayCurrency";
 import VerticalCardProduct from "../components/VerticalCardProduct";
+import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
 
 const ProductDetails = () => {
   const [data, setData] = useState({
@@ -69,22 +70,21 @@ const ProductDetails = () => {
     [zoomImageCoordinate]
   );
 
-  const handleLeaveZoomImage =()=>{
+  const handleLeaveZoomImage = () => {
     setZoomImage(false);
-  }
+  };
   return (
     <div className="container mx-auto p-4">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
         {/* product Image */}
         <div className="h-96 flex flex-col lg:flex-row-reverse gap-4">
-          <div className="h-[300px] w-[300px] lg:h-96 lg:w-96 bg-slate-200 relative">
+          <div className="h-[300px] w-[300px] lg:h-96 lg:w-96 bg-slate-200 relative p-2">
             <img
               src={activeImage}
               alt=""
               className="h-full w-full object-scale-down mix-blend-multiply"
               onMouseMove={handleZoomImage}
               onMouseLeave={handleLeaveZoomImage}
-              
             />
             {/* product zoom */}
             {zoomImage && (
@@ -205,7 +205,12 @@ const ProductDetails = () => {
         )}
       </div>
 
-      <VerticalCardProduct category={data.category} heading={'Recommended Product'}/>
+      {data?.category && (
+        <CategoryWiseProductDisplay
+          category={data.category}
+          heading={"Recommended Product"}
+        />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { GrSearch } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -9,11 +9,13 @@ import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import { setUserDetails } from "../store/userSlice";
 import ROLE from "../common/role";
+import Context from "../context";
 
 const Header = () => {
   const user = useSelector((state) => state?.user?.user);
   const dispatch = useDispatch();
   const [menuDisplay, setMenuDisplay] = useState(false);
+  const context = useContext(Context)
 
   // console.log("user header", user);
 
@@ -33,6 +35,7 @@ const Header = () => {
     }
     console.log("check user after logout ->", user);
   };
+  console.log('header add to cart ',context);
   return (
     <header className="h-16 shadow-md bg-white fixed w-full z-40">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -93,7 +96,7 @@ const Header = () => {
               <FaShoppingCart />
             </span>
             <div className="bg-red-500 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-2">
-              <p className="text-sm">0</p>
+              <p className="text-sm">{context?.cartProductCount}</p>
             </div>
           </div>
 
