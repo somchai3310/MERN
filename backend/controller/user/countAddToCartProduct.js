@@ -5,7 +5,7 @@ const countAddToCartProduct = async(req,res)=>{
     const userId = req.userId
 
     const count = await addToCardModel.countDocuments({
-      userid: userId
+      userId: userId
     })
     console.log('count',count);
     res.json({
