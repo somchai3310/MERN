@@ -50,11 +50,11 @@ function App() {
       <Context.Provider
         value={{
           fetchUserDetails, //user detail fetch
-          cartProductCount, //current user add to cart
           fetchUserAddToCart,
+          cartProductCount, //current user add to cart
         }}
       >
-        <ToastContainer />
+        <ToastContainer  position="top-center"/>
         <Header />
         <main className="min-h-[calc(100vh-120px)] pt-16">
           <Outlet />
