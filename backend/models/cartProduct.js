@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const addToCardSchema = mongoose.Schema(
   {
-    productId: String,
+    productId: {
+      ref: 'product',
+      type: String,
+    },
     quantify: Number,
     userId: String,
 
