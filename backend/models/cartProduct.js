@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const addToCardSchema = mongoose.Schema(
+const addToCartSchema = mongoose.Schema(
   {
     productId: {
       ref: 'product',
@@ -15,6 +15,6 @@ const addToCardSchema = mongoose.Schema(
   }
 );
 
-const addToCardModel = mongoose.model("addToCart", addToCardSchema);
+const addToCartModel = mongoose.model("addToCart", addToCartSchema);
 
-module.exports = addToCardModel
+module.exports = addToCartModel

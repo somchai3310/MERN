@@ -1,10 +1,10 @@
-const addToCardModel = require("../../models/cartProduct")
+const addToCartModel = require("../../models/cartProduct")
 
 const addToCartViewProduct = async (req,res)=>{
   try {
     const currentUser = req.userId
 
-    const allProduct = await addToCardModel.find({
+    const allProduct = await addToCartModel.find({
       userId: currentUser
     }).populate("productId")
 
