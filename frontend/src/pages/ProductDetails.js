@@ -27,7 +27,7 @@ const ProductDetails = () => {
   const [zoomImage, setZoomImage] = useState(false);
 
   const params = useParams();
-  console.log("product id ", params?.id);
+  // console.log("product id ", params?.id);
 
   const fetchProductDetails = async () => {
     setLoading(true);
@@ -45,11 +45,11 @@ const ProductDetails = () => {
     setData(dataResponse?.data);
     setActiveImage(dataResponse?.data?.productImage[0]);
   };
-  console.log("dataResponse", data);
+  // console.log("dataResponse", data);
 
   useEffect(() => {
     fetchProductDetails();
-  }, []);
+  }, [params]);
 
   const handleMouseEnterProduct = (imageURL) => {
     setActiveImage(imageURL);
@@ -59,7 +59,7 @@ const ProductDetails = () => {
     (e) => {
       setZoomImage(true);
       const { left, top, width, height } = e.target.getBoundingClientRect();
-      console.log("coordinate ", left, top, width, height);
+      // console.log("coordinate ", left, top, width, height);
 
       const x = (e.clientX - left) / width;
       const y = (e.clientY - top) / height;

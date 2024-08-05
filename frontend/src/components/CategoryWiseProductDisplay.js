@@ -4,6 +4,7 @@ import displayCurrency from "../helpers/displayCurrency";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
 import Context from "../context";
+import scrollTop from "../helpers/scrollTop";
 
 // แนะนำสินค้าเพิ่มเติม จาก สินค้าที่กดเข้าไปดู
 const CategoryWiseProductDisplay = ({ category, heading }) => {
@@ -11,12 +12,12 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
 
-  const {fetchUserAddToCart} = useContext(Context)
+  const { fetchUserAddToCart } = useContext(Context);
 
-  const handleAddToCart = async(e,id)=>{
-    await addToCart(e, id)
-    fetchUserAddToCart()
-  }
+  const handleAddToCart = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -25,6 +26,10 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
     setLoading(false);
     setData(categoryProduct?.data);
   };
+  // const reRender = () => {
+  //   // re-rendered
+  //   this.forceUpdate()
+  // };
   useEffect(() => {
     fetchData();
   }, []);
@@ -36,11 +41,14 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
         {loading
           ? loadingList.map((product, index) => {
               return (
-                <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow">
+                <div
+                  className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow"
+                  key={index}
+                >
                   <div className="bg-slate-300 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse"></div>
                   <div className="p-4 grid gap-3 animate-pulse">
                     <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 bg-slate-300 rounded-full">
-                      {" "}
+                      {" sf"}
                     </h2>
                     <p className="text-slate-500 capitalize p-1 py-2 bg-slate-300 rounded-full"></p>
                     <div className="flex gap-3">
@@ -55,8 +63,10 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
           : data.map((product, index) => {
               return (
                 <Link
-                  to={`product/${product?._id}`}
+                  to={`/product/${product?._id}`}
                   className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow"
+                  onClick={scrollTop}
+                  key={product?._id}
                 >
                   <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
                     <img

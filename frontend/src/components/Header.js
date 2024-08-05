@@ -3,7 +3,12 @@ import Logo from "./Logo";
 import { GrSearch } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
@@ -16,7 +21,10 @@ const Header = () => {
   const dispatch = useDispatch();
   const [menuDisplay, setMenuDisplay] = useState(false);
   const context = useContext(Context);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useSearchParams();
+
+  console.log("searchInput ", searchInput.get('q'));
 
   // console.log("user header", user);
 
@@ -41,10 +49,10 @@ const Header = () => {
   const handleSearch = (e) => {
     const { value } = e.target;
 
-    if(value){
-      navigate(`/search?q=${value}`)
-    }else{
-      navigate("/search")
+    if (value) {
+      navigate(`/search?q=${value}`);
+    } else {
+      navigate("/search");
     }
   };
   return (
