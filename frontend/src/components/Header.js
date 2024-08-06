@@ -23,6 +23,7 @@ const Header = () => {
   const context = useContext(Context);
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useSearchParams();
+  const [search,setSearch] = useState(searchInput.get('q'))
 
   console.log("searchInput ", searchInput.get('q'));
 
@@ -48,6 +49,8 @@ const Header = () => {
 
   const handleSearch = (e) => {
     const { value } = e.target;
+    console.log('handle search -->',value);
+    setSearch(value)
 
     if (value) {
       navigate(`/search?q=${value}`);
@@ -69,6 +72,7 @@ const Header = () => {
             placeholder="search product here.."
             className="w-full outline-none pl-2"
             onChange={handleSearch}
+            value={search}
           />
           <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full">
             <GrSearch />
