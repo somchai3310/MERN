@@ -1,23 +1,86 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import productCategory from "../helpers/productCategory";
-import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
+import VerticalCard from "../components/VerticalCard";
+import SummaryApi from "../common";
 
 const CategoryProduct = () => {
-  const params = useParams();
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const urlSearch = new URLSearchParams(location.search);
+  const urlCategoryListInArray = urlSearch.getAll("category");
+
+  const urlCategoryListObject = {};
+  urlCategoryListInArray.forEach((el) => {
+    urlCategoryListObject[el] = true;
+  });
+
+  // console.log('urlCategoryListInArray', urlCategoryListInArray);
+  // console.log('urlCategoryListObject', urlCategoryListObject);
+
+  const [selectCategory, setSelectCategory] = useState(urlCategoryListObject);
+  const [filterCategoryList, setFilterCategory] = useState([]);
 
   const fetchData = async () => {
-    const response = await fetch();
+    const response = await fetch(SummaryApi.filterProduct.url, {
+      method: SummaryApi.filterProduct.method,
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        category: filterCategoryList,
+      }),
+    });
     const dataResponse = await response.json();
 
     setData(dataResponse?.data || []);
-    console.log(dataResponse);
+    // console.log("fetch ->", dataResponse);
   };
 
-  console.log("params", params?.categoryName);
   // {params?.categoryName}
+
+  const handleSelectCategory = (e) => {
+    const { name, value, checked } = e.target;
+
+    setSelectCategory((preve) => {
+      return {
+        ...preve,
+        [value]: checked,
+      };
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [filterCategoryList]);
+
+  useEffect(() => {
+    const arrayOfCategory = Object.keys(selectCategory)
+      .map((categoryKeyName) => {
+        if (selectCategory[categoryKeyName]) {
+          return categoryKeyName;
+        }
+        return null;
+      })
+      .filter((el) => el);
+
+    setFilterCategory(arrayOfCategory);
+
+    // format for url change when change on the checkbox
+    const urlFormat = arrayOfCategory.map((el, index) => {
+      if (arrayOfCategory.length - 1 === index) {
+        return `category=${el}`;
+      }
+      return `category=${el}&`;
+    });
+
+    // console.log("urlFormat", urlFormat);
+    navigate(`/product-category?${urlFormat.join("")}`);
+    // console.log('select c', arrayOfCategory);
+    // product-category?category=Mouse&category=camera
+  }, [selectCategory]);
   return (
     <div className="container mx-auto p-4">
       {/* desktop version */}
@@ -56,7 +119,10 @@ const CategoryProduct = () => {
                       type="checkbox"
                       name={"category"}
                       id={categoryName?.value}
+                      value={categoryName?.value}
                       key={categoryName?.id}
+                      onChange={handleSelectCategory}
+                      checked={selectCategory[categoryName?.value]}
                     />
                     <label htmlFor={categoryName?.value}>
                       {categoryName?.label}
@@ -69,13 +135,15 @@ const CategoryProduct = () => {
         </div>
 
         {/* right side (product) */}
-        <div>
-          {params?.categoryName && (
-            <CategoryWiseProductDisplay
-              category={params?.categoryName}
-              heading={"Recommended Product"}
-            />
-          )}
+        <div className="px-4">
+          <p className="font-medium text-slate-800 text-lg my-2">
+            Search Results : {data.length}{" "}
+          </p>
+          <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
+            {data.length !== 0 && (
+              <VerticalCard data={data} loading={loading} />
+            )}
+          </div>
         </div>
       </div>
     </div>
