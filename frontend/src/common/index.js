@@ -1,79 +1,82 @@
-const backendDomain = 'http://localhost:8080'
-
+const backendDomain = "http://localhost:8080";
 
 const SummaryApi = {
-  signUp : {
+  signUp: {
     url: `${backendDomain}/api/signup`,
-    method: 'post'
+    method: "post",
   },
   signIn: {
     url: `${backendDomain}/api/signin`,
-    method: 'post'
+    method: "post",
   },
   current_user: {
     url: `${backendDomain}/api/user-details`,
-    method: 'get'
+    method: "get",
   },
   logout_user: {
     url: `${backendDomain}/api/user-logout`,
-    method: 'get'
+    method: "get",
   },
   allUser: {
     url: `${backendDomain}/api/all-user`,
-    method: 'get'
+    method: "get",
   },
   updateUser: {
     url: `${backendDomain}/api/update-user`,
-    method: 'post'
+    method: "post",
   },
   uploadProduct: {
     url: `${backendDomain}/api/upload-product`,
-    method: 'post'
+    method: "post",
   },
   allProduct: {
     url: `${backendDomain}/api/get-product`,
-    method: 'get'
+    method: "get",
   },
   updateProduct: {
     url: `${backendDomain}/api/update-product`,
-    method: 'post'
+    method: "post",
   },
   categoryProduct: {
     url: `${backendDomain}/api/get-category-product`,
-    method: 'get'
+    method: "get",
   },
   categoryWiseProduct: {
     url: `${backendDomain}/api/category-product`,
-    method: 'post'
+    method: "post",
   },
   productDetails: {
     url: `${backendDomain}/api/product-details`,
-    method: 'post'
+    method: "post",
   },
   addToCartProduct: {
     url: `${backendDomain}/api/addtocart`,
-    method: 'post'
+    method: "post",
   },
   addToCartProductCount: {
     url: `${backendDomain}/api/count-add-to-cart-product`,
-    method: 'get'
+    method: "get",
   },
   addToCartProductView: {
     url: `${backendDomain}/api/view-cart-products`,
-    method: 'get'
+    method: "get",
   },
   updateCartProduct: {
     url: `${backendDomain}/api/update-cart-product`,
-    method: 'post'
+    method: "post",
   },
   deleteCartProduct: {
     url: `${backendDomain}/api/delete-cart-product`,
-    method: 'post'
+    method: "post",
   },
-  searchProduct:{
+  searchProduct: {
     url: `${backendDomain}/api/search`,
-    method: 'get'
+    method: "get",
   },
-}
+  filterProduct: {
+    url: `${backendDomain}/api/filter-product`,
+    method: "post",
+  },
+};
 
-export default SummaryApi
+export default SummaryApi;
