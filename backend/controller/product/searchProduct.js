@@ -27,7 +27,7 @@ const searchProduct = async(req,res)=>{
       success: true,
     })
 
-    console.log('qqqq ',query);
+    // console.log('qqqq ',query);
   } catch (err) {
     res.json({
       message: err.message || err,
