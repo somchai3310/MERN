@@ -5,6 +5,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import {
   Link,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -22,10 +23,13 @@ const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
   const context = useContext(Context);
   const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useSearchParams();
-  const [search,setSearch] = useState(searchInput.get('q'))
+  const searchInput = useLocation()
+  const URLSearch = new URLSearchParams(searchInput?.search)
+  const searchQuery = URLSearch.getAll("q")
+  const [search,setSearch] = useState(searchQuery)
+  // const [search,setSearch] = useState('')
 
-  console.log("searchInput ", searchInput.get('q'));
+  // console.log("searchInput ", searchInput.get('q'));
 
   // console.log("user header", user);
 
@@ -40,12 +44,13 @@ const Header = () => {
     if (data.success) {
       toast.success(data.message);
       dispatch(setUserDetails(null));
+      navigate('/')
     } else {
       toast.error(data.message);
     }
     console.log("check user after logout ->", user);
   };
-  console.log("header add to cart ", context);
+  // console.log("header add to cart ", context);
 
   const handleSearch = (e) => {
     const { value } = e.target;
