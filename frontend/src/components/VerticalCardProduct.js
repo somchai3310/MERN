@@ -24,7 +24,7 @@ const VerticalCardProduct = ({ category, heading }) => {
   const fetchData = async () => {
     setLoading(true);
     const categoryProduct = await fetchCategoryWiseProduct(category);
-    console.log("categoryProduct ", categoryProduct.data);
+    // console.log("categoryProduct ", categoryProduct.data);
     setLoading(false);
     setData(categoryProduct?.data);
   };
